@@ -24,6 +24,41 @@ const RegistartionForm = ({ editUser, editIndex }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+  
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const phone = formData.phone.trim();
+    const password = formData.password;
+    const confirm = formData.confirm_password;
+
+    if (!name) {
+      alert("Please enter your full name.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    const phoneDigits = phone.replace(/\D/g, "");
+    if (!phone || phoneDigits.length < 7) {
+      alert("Please enter a valid phone number.");
+      return;
+    }
+
+    if (!password || password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return;
+    }
+
+    if (password !== confirm) {
+      alert("Password and confirm password do not match.");
+      return;
+    }
+
+   
     let users = JSON.parse(localStorage.getItem("users")) || [];
     if (editIndex !== null && editIndex !== undefined) {
       users[editIndex] = formData;
@@ -50,6 +85,7 @@ const RegistartionForm = ({ editUser, editIndex }) => {
 
           <input
             name="name"
+            type="text"
             value={formData.name}
             onChange={handleChange}
             placeholder="Full Name"
@@ -58,6 +94,7 @@ const RegistartionForm = ({ editUser, editIndex }) => {
 
           <input
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
             placeholder="Email"
@@ -66,6 +103,7 @@ const RegistartionForm = ({ editUser, editIndex }) => {
 
           <input
             name="phone"
+            type="tel"
             value={formData.phone}
             onChange={handleChange}
             placeholder="Phone"
@@ -74,6 +112,7 @@ const RegistartionForm = ({ editUser, editIndex }) => {
 
           <input
             name="password"
+            type="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
@@ -82,6 +121,7 @@ const RegistartionForm = ({ editUser, editIndex }) => {
 
           <input
             name="confirm_password"
+            type="password"
             value={formData.confirm_password}
             onChange={handleChange}
             placeholder="Confirm Password"
